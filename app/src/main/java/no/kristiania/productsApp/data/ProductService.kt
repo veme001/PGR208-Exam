@@ -8,7 +8,10 @@ import retrofit2.http.Path
 
 interface ProductService {
 
-    @GET("products?limit=50")
-    suspend fun getAllProducts(): Response<List<Product>>
+    @GET("products/{productId}")
+    suspend fun getProductById(
+        @Path("productId") id: Int
+    ): Response<Product>
 
 }
+

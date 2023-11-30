@@ -26,13 +26,15 @@ object ProductRepository {
     private val _productService =
         _retrofit.create(ProductService::class.java)
 
-    suspend fun getProducts(): List<Product> {
-        val response = _productService.getAllProducts()
+    suspend fun getProductById(productId: Int): Product? {
+        val response =
+            _productService.getProductById(productId)
 
-        return if (response.isSuccessful) {
-            response.body() ?: emptyList()
+        return if(response.isSuccessful) {
+            response.body()
         } else {
-            emptyList()
+            null
         }
     }
+
 }
