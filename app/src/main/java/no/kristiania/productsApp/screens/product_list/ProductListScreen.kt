@@ -17,7 +17,7 @@ fun ProductListScreen() {
     Text(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(8.dp),
+            .padding(12.dp),
         text = "Products",
         style = MaterialTheme.typography.titleLarge
     )
