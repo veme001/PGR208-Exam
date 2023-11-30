@@ -1,4 +1,4 @@
-package no.kristiania.products.data
+package no.kristiania.productsApp.data
 
 data class Product(
     val id: Int,

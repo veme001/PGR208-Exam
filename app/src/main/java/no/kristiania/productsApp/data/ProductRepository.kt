@@ -1,6 +1,5 @@
 package no.kristiania.productsApp.data
 
-import no.kristiania.products.data.Product
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -25,6 +24,16 @@ object ProductRepository {
 
     private val _productService =
         _retrofit.create(ProductService::class.java)
+
+    suspend fun getAllProducts() : List<Product>? {
+        val response = _productService.getAllProducts()
+
+        return if(response.isSuccessful){
+            response.body() ?: emptyList()
+        } else {
+            emptyList()
+        }
+    }
 
     suspend fun getProductById(productId: Int): Product? {
         val response =

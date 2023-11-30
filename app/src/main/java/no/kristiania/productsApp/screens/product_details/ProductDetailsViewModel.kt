@@ -5,7 +5,7 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
-import no.kristiania.products.data.Product
+import no.kristiania.productsApp.data.Product
 import no.kristiania.productsApp.data.ProductRepository
 
 class ProductDetailsViewModel : ViewModel() {
