@@ -3,15 +3,21 @@ package no.kristiania.productsApp.screens.product_details
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -21,9 +27,12 @@ import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import no.kristiania.products.data.Product
 
-@Preview
 @Composable
-fun ProductDetailsScreen () {
+fun ProductDetailsScreen (
+    viewModel: ProductDetailsViewModel,
+    onBackButtonClick: () -> Unit = {}
+) {
+
 
     val productDetails = Product(
         id = 1,
@@ -35,26 +44,30 @@ fun ProductDetailsScreen () {
         rating = 4.5
     )
 
-    AsyncImage(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(color = Color.Gray),
-        model = productDetails.imageUrl,
-        contentScale = ContentScale.Crop,
-        alignment = Alignment.Center,
-        contentDescription = "Image of ${productDetails.title}"
-    )
+    val productState = viewModel.selectedProduct.collectAsState()
 
+    val product = productState.value
+    if (product == null) {
+        Text(text = "Failed to get product details. Selected product object is NULL")
+    }
 
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(color = Color.Red),
+            .background(color = Color.Transparent),
     ) {
-        Box(modifier = Modifier
+        Row(modifier = Modifier
             .fillMaxWidth()
-            .background(color = Color.Blue)
         ) {
+            IconButton(
+                onClick = { }
+            ) {
+                Icon(
+                    imageVector = Icons.Default.ArrowBack,
+                    contentDescription = "Refresh products"
+                )
+            }
+
             Text(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -66,7 +79,6 @@ fun ProductDetailsScreen () {
         Column(modifier = Modifier
             .fillMaxWidth()
             .padding(10.dp)
-            .background(color = Color.Green)
         ) {
 
             Text(text = "Title: ${productDetails.title}")
@@ -77,12 +89,12 @@ fun ProductDetailsScreen () {
         Button(
             modifier = Modifier
                 .align(Alignment.CenterHorizontally)
-                .width(200.dp)
-                .padding(16.dp),
+                .width(150.dp)
+                .padding(8.dp),
             onClick = { /*TODO*/ },
 
         ) {
-            Text(text = "Legg i handlekurv")
+            Text(text = "Add to cart")
             }
     }
 }
