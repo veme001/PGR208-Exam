@@ -28,17 +28,6 @@ fun ProductDetailsScreen (
     onBackButtonClick: () -> Unit = {}
 ) {
 
-
-    val productDetails = Product(
-        id = 1,
-        title = "Holzweiler Hoodie",
-        price = 299.00,
-        description = "Hoodie from Holzweiler. 100% cotton",
-        category = "Hoodies",
-        imageUrl = "",
-        rating = 4.5
-    )
-
     val productState = viewModel.selectedProduct.collectAsState()
 
     val product = productState.value
@@ -76,10 +65,10 @@ fun ProductDetailsScreen (
             .padding(10.dp)
         ) {
 
-            Text(text = "Title: ${productDetails.title}")
-            Text(text = "Price: ${productDetails.price}")
-            Text(text = "Rating: ${productDetails.rating}")
-            Text(text = "Description: ${productDetails.description}")
+            Text(text = "Title: ${product?.title}")
+            Text(text = "Price: ${product?.price}")
+            Text(text = "Rating: ${product?.rating}")
+            Text(text = "Description: ${product?.description}")
         }
         Button(
             modifier = Modifier
