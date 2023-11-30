@@ -27,4 +27,11 @@ fun ProductListScreen() {
         text = "All products:",
         style = MaterialTheme.typography.titleLarge
     )
+    Text(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(8.dp),
+        text = "All products v2:",
+        style = MaterialTheme.typography.titleLarge
+    )
 }
