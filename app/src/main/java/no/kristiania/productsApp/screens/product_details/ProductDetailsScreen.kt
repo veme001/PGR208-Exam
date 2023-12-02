@@ -1,6 +1,7 @@
 package no.kristiania.productsApp.screens.product_details
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
@@ -43,6 +44,9 @@ fun ProductDetailsScreen (
     ) {
         Row(modifier = Modifier
             .fillMaxWidth()
+            .padding(8.dp),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.SpaceBetween
         ) {
             IconButton(
                 onClick = { onBackButtonClick() }
@@ -55,7 +59,6 @@ fun ProductDetailsScreen (
 
             Text(
                 modifier = Modifier
-                    .fillMaxWidth()
                     .padding(8.dp),
                 text = "Product details",
                 style = MaterialTheme.typography.titleLarge,
