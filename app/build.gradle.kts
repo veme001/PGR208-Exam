@@ -66,7 +66,7 @@ dependencies {
     implementation("com.squareup.okhttp3:logging-interceptor:4.11.0")
 
     // Coil -> Asyncimage
-    implementation("io.coil-kt:coil-compose:2.5.0")
+    implementation("io.coil-kt:coil-compose:2.4.0")
 
     // Navigation
     implementation("androidx.navigation:navigation-compose:2.7.4")
