@@ -25,7 +25,10 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun ProductListScreen (viewModel: ProductListViewModel) {
+fun ProductListScreen (
+    viewModel: ProductListViewModel,
+    onProductClick: (productId: Int) -> Unit = {}
+) {
     val products = viewModel.products.collectAsState()
 
     Column(
@@ -67,21 +70,12 @@ fun ProductListScreen (viewModel: ProductListViewModel) {
                 .weight(1f)
         ) {
             items(products.value){product ->
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(
-                            horizontal = 12.dp,
-                            vertical = 8.dp
-                        )
-                        .shadow(
-                            elevation = 4.dp,
-                            shape = RoundedCornerShape(10)
-                        )
-                        .background(color = Color.Green)
-                ) {
-                    Text(text = product.title)
-                }
+                ProductItem(
+                    product = product,
+                    onClick = {
+                        onProductClick(product.id)
+                    }
+                )
             }
         }
     }

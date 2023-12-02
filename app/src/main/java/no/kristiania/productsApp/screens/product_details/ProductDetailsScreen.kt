@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.ShoppingCart
 import androidx.compose.material3.Button
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -44,7 +45,7 @@ fun ProductDetailsScreen (
             .fillMaxWidth()
         ) {
             IconButton(
-                onClick = { }
+                onClick = { onBackButtonClick() }
             ) {
                 Icon(
                     imageVector = Icons.Default.ArrowBack,
@@ -59,6 +60,14 @@ fun ProductDetailsScreen (
                 text = "Product details",
                 style = MaterialTheme.typography.titleLarge,
             )
+            IconButton(
+                onClick = {}
+            ) {
+                Icon (
+                    imageVector = Icons.Default.ShoppingCart,
+                    contentDescription = "shopping cart"
+                )
+            }
         }
         Column(modifier = Modifier
             .fillMaxWidth()
