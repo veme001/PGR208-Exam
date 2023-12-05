@@ -2,15 +2,18 @@ package no.kristiania.productsApp.screens.product_details
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.gestures.Orientation
+import androidx.compose.foundation.gestures.scrollable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.ShoppingCart
@@ -45,7 +48,7 @@ fun ProductDetailsScreen (
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(color = Color.Transparent),
+            .background(color = Color.Transparent)
     ) {
         Row(modifier = Modifier
             .fillMaxWidth()
@@ -81,7 +84,7 @@ fun ProductDetailsScreen (
         Box(
             modifier = Modifier
                 .fillMaxWidth()
-                .height(200.dp)
+                .padding(64.dp)
                 .background(color = Color.Gray)
         ) {
             Image(
@@ -95,7 +98,7 @@ fun ProductDetailsScreen (
 
         Column(modifier = Modifier
             .fillMaxWidth()
-            .padding(10.dp)
+            .padding(20.dp)
         ) {
 
             Text(text = "Title: ${product?.title}")
@@ -110,8 +113,8 @@ fun ProductDetailsScreen (
                 .padding(8.dp),
             onClick = { /*TODO*/ },
 
-        ) {
+            ) {
             Text(text = "Add to cart")
-            }
+        }
     }
 }
