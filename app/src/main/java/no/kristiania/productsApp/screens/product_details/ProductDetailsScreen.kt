@@ -49,6 +49,7 @@ fun ProductDetailsScreen (
         modifier = Modifier
             .fillMaxSize()
             .background(color = Color.Transparent)
+            .verticalScroll(rememberScrollState())
     ) {
         Row(modifier = Modifier
             .fillMaxWidth()
@@ -85,12 +86,13 @@ fun ProductDetailsScreen (
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(64.dp)
-                .background(color = Color.Gray)
+                .background(color = Color.Transparent)
         ) {
             Image(
                 modifier = Modifier.fillMaxWidth(),
                 painter = rememberAsyncImagePainter(model = product?.image),
-                contentScale = ContentScale.Crop,
+                //painter = painterResource(id = R.drawable.placeholder_image),
+                contentScale = ContentScale.Fit,
                 contentDescription = "Image of ${product?.title}"
             )
         }
