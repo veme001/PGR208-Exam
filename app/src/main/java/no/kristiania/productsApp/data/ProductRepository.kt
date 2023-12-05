@@ -1,5 +1,8 @@
 package no.kristiania.productsApp.data
 
+import android.content.Context
+import android.util.Log
+import androidx.room.Room
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -25,25 +28,37 @@ object ProductRepository {
     private val _productService =
         _retrofit.create(ProductService::class.java)
 
-    suspend fun getAllProducts() : List<Product>? {
-        val response = _productService.getAllProducts()
+    private lateinit var _appDatabase: AppDatabase
 
-        return if(response.isSuccessful){
-            response.body() ?: emptyList()
-        } else {
-            emptyList()
+    fun initiateDatabase(context: Context){
+        _appDatabase = Room.databaseBuilder(
+            context = context,
+            klass = AppDatabase::class.java,
+            name = "appDatabase"
+        ).fallbackToDestructiveMigration().build()
+    }
+
+    suspend fun getAllProducts(): List<Product> {
+        try {
+            val response = _productService.getAllProducts()
+
+            if(response.isSuccessful){
+
+                val products = response.body() ?: emptyList()
+                _appDatabase.getProductDao().insertProducts(products)
+
+                return _appDatabase.getProductDao().getAllProducts()
+            } else {
+                throw Exception("could not get all products")
+            }
+        } catch (e: Exception){
+            Log.e("getProducts", "get products did not work", e)
+            return _appDatabase.getProductDao().getAllProducts()
         }
     }
 
     suspend fun getProductById(productId: Int): Product? {
-        val response =
-            _productService.getProductById(productId)
-
-        return if(response.isSuccessful) {
-            response.body()
-        } else {
-            null
-        }
+        return _appDatabase.getProductDao().getProductById(productId)
     }
 
 }
