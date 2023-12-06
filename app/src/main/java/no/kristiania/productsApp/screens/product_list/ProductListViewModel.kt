@@ -23,7 +23,7 @@ class ProductListViewModel : ViewModel() {
     fun loadProducts() {
         viewModelScope.launch(Dispatchers.IO) {
             _loading.value = true
-            _products.value = ProductRepository.getAllProducts()!!
+            _products.value = ProductRepository.getAllProducts()
             _loading.value = false
         }
     }

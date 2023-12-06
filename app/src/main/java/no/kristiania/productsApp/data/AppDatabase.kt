@@ -5,7 +5,7 @@ import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 
 @Database(
-    entities = [Product::class],
+    entities = [Product::class, ],
     version = 1,
     exportSchema = false
 )
@@ -13,4 +13,5 @@ import androidx.room.TypeConverters
 @TypeConverters(TypeConverter::class)
 abstract class AppDatabase : RoomDatabase() {
     abstract fun getProductDao(): ProductDao
+    abstract fun getShoppingCartDao() : ShoppingCartItemDao
 }

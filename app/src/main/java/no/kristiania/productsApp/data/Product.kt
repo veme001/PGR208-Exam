@@ -3,7 +3,7 @@ package no.kristiania.productsApp.data
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
-@Entity
+@Entity("Products")
 data class Product(
     @PrimaryKey
     val id: Int,
