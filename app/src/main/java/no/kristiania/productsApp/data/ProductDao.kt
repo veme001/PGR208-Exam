@@ -2,6 +2,7 @@ package no.kristiania.productsApp.data
 
 import androidx.room.Dao
 import androidx.room.Insert
+import androidx.room.OnConflictStrategy
 import androidx.room.Query
 
 @Dao
@@ -10,7 +11,7 @@ interface ProductDao {
     @Query("SELECT * FROM Products")
     suspend fun getAllProducts() : List<Product>
 
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertProducts(products: List<Product>)
 
     @Query("SELECT * FROM Products WHERE :id = id")

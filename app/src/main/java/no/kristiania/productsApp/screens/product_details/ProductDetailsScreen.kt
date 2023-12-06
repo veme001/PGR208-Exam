@@ -31,7 +31,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.font.FontWeight.Companion.Bold
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 
@@ -39,7 +38,8 @@ import coil.compose.AsyncImage
 @Composable
 fun ProductDetailsScreen (
     viewModel: ProductDetailsViewModel,
-    onBackButtonClick: () -> Unit = {}
+    onBackButtonClick: () -> Unit = {},
+    navigateToShoppingCart: () -> Unit = {}
 ) {
 
     val productState = viewModel.selectedProduct.collectAsState()
@@ -78,7 +78,7 @@ fun ProductDetailsScreen (
                 style = MaterialTheme.typography.titleLarge,
             )
             IconButton(
-                onClick = {}
+                onClick = { navigateToShoppingCart() }
             ) {
                 Icon (
                     imageVector = Icons.Default.ShoppingCart,
@@ -158,7 +158,7 @@ fun ProductDetailsScreen (
                 .align(Alignment.CenterHorizontally)
                 .width(150.dp)
                 .padding(8.dp),
-            onClick = { /*TODO*/ },
+            onClick = { viewModel.addProductToCart() },
 
             ) {
             Text(text = "Add to cart")

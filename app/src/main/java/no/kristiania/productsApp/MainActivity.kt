@@ -15,11 +15,14 @@ import no.kristiania.productsApp.screens.product_details.ProductDetailsScreen
 import no.kristiania.productsApp.screens.product_details.ProductDetailsViewModel
 import no.kristiania.productsApp.screens.product_list.ProductListScreen
 import no.kristiania.productsApp.screens.product_list.ProductListViewModel
+import no.kristiania.productsApp.screens.shopping_cart.ShoppingCartScreen
+import no.kristiania.productsApp.screens.shopping_cart.ShoppingCartViewModel
 import no.kristiania.productsApp.ui.theme.ProductsAppTheme
 
 class MainActivity : ComponentActivity() {
     private val _productListViewModel : ProductListViewModel by viewModels()
     private val _productDetailsViewModel : ProductDetailsViewModel by viewModels()
+    private val _shoppingCartViewModel : ShoppingCartViewModel by viewModels()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -60,7 +63,24 @@ class MainActivity : ComponentActivity() {
 
                         ProductDetailsScreen(
                             viewModel = _productDetailsViewModel,
-                            onBackButtonClick = {navController.popBackStack()}
+                            onBackButtonClick = {navController.popBackStack()},
+                            navigateToShoppingCart = {
+                                navController.navigate("shoppingCartScreen")
+                            }
+                        )
+                    }
+                    composable(route = "shoppingCartScreen") {
+                        // LaunchedEffect will run it's code block first time we navigate to favoriteListScreen
+                        LaunchedEffect(Unit) {
+                            _shoppingCartViewModel.loadShoppingCart()
+                        }
+                        ShoppingCartScreen(
+                            viewModel = _shoppingCartViewModel,
+                            onBackButtonClick = { navController.popBackStack() },
+                            onProductClick = {productId ->
+                                navController.navigate("productDetailsScreen/${productId}")
+                            }
+
                         )
                     }
                 }
