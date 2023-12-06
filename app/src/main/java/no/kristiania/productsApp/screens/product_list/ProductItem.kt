@@ -66,20 +66,26 @@ fun ProductItem(
             Column (
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(4.dp),
-                horizontalAlignment = Alignment.CenterHorizontally,
+                    .padding(16.dp),
+                horizontalAlignment = Alignment.Start,
 
             ){
                 Text(
-                    modifier = Modifier.padding(12.dp),
+                    modifier = Modifier.padding(4.dp),
                     text = product.title,
                     fontWeight = FontWeight.Bold
                 )
                 Text(
                     modifier = Modifier.padding(4.dp),
+                    text = "${product.category}",
+                    color = Color.Gray,
+                    textAlign = TextAlign.Start
+                )
+                Text(
+                    modifier = Modifier.padding(4.dp),
                     text = "$${product.price}",
                     color = Color.Gray,
-                    textAlign = TextAlign.Center
+                    textAlign = TextAlign.Start
                 )
             }
         }
