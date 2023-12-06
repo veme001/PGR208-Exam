@@ -61,4 +61,38 @@ object ProductRepository {
         return _appDatabase.getProductDao().getProductById(productId)
     }
 
+    suspend fun getProductsById(ids: List<Int>) : List<Product>{
+        return _appDatabase.getProductDao().getProductsByIds(ids)
+    }
+
+    // Shopping Cart:
+    suspend fun getShoppingCart(): List<ShoppingCartItem> {
+        val itemsList = _appDatabase.getShoppingCartDao().getShoppingCart()
+
+        return itemsList.ifEmpty {
+            emptyList()
+        }
+    }
+
+    suspend fun addShoppingCartItem(item : ShoppingCartItem) {
+        val exists = _appDatabase.getShoppingCartDao().getItemById(item.productId)
+
+        if(exists != null){
+            _appDatabase.getShoppingCartDao().updateQuantity(item.productId, item.quantity + 1)
+        } else {
+            _appDatabase.getShoppingCartDao().insertItem(item)
+        }
+    }
+
+    suspend fun updateQuantity(productId: Int, quantity: Int){
+        _appDatabase.getShoppingCartDao().updateQuantity(productId, quantity)
+    }
+
+    suspend fun removeShoppingCartItem(item : ShoppingCartItem){
+        val itemToDelete = _appDatabase.getShoppingCartDao().getItemById(item.productId)
+
+        if(itemToDelete != null){
+            _appDatabase.getShoppingCartDao().deleteItem(item)
+        }
+    }
 }
