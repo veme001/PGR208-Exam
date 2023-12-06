@@ -30,6 +30,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.font.FontWeight.Companion.Bold
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 
@@ -94,6 +95,7 @@ fun ProductDetailsScreen (
             AsyncImage(
                 modifier = Modifier.fillMaxWidth(),
                 model = product?.image,
+                //painter = painterResource(id = R.drawable.placeholder_image),
                 contentScale = ContentScale.Fit,
                 contentDescription = "Image of ${product?.title}"
             )
