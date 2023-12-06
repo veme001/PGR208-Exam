@@ -1,15 +1,15 @@
 package no.kristiania.productsApp.screens.product_details
 
-import androidx.compose.foundation.Image
+
 import androidx.compose.foundation.background
-import androidx.compose.foundation.gestures.Orientation
-import androidx.compose.foundation.gestures.scrollable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
@@ -17,6 +17,7 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.ShoppingCart
+import androidx.compose.material.icons.filled.Star
 import androidx.compose.material3.Button
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -28,8 +29,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.font.FontWeight.Companion.Bold
 import androidx.compose.ui.unit.dp
-import coil.compose.rememberAsyncImagePainter
+import coil.compose.AsyncImage
+
 
 @Composable
 fun ProductDetailsScreen (
@@ -88,9 +92,9 @@ fun ProductDetailsScreen (
                 .padding(64.dp)
                 .background(color = Color.Transparent)
         ) {
-            Image(
+            AsyncImage(
                 modifier = Modifier.fillMaxWidth(),
-                painter = rememberAsyncImagePainter(model = product?.image),
+                model = product?.image,
                 //painter = painterResource(id = R.drawable.placeholder_image),
                 contentScale = ContentScale.Fit,
                 contentDescription = "Image of ${product?.title}"
@@ -98,15 +102,52 @@ fun ProductDetailsScreen (
         }
 
 
-        Column(modifier = Modifier
-            .fillMaxWidth()
-            .padding(20.dp)
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(16.dp)
         ) {
+            Text(
+                text = product?.title ?: "Product Title",
+                style = MaterialTheme.typography.titleLarge,
+                fontWeight = FontWeight.Bold,
+                color = MaterialTheme.colorScheme.primary
+            )
 
-            Text(text = "Title: ${product?.title}")
-            Text(text = "Price: ${product?.price}")
-            Text(text = "Rating: ${product?.rating}")
-            Text(text = "Description: ${product?.description}")
+            Spacer(modifier = Modifier.height(8.dp))
+
+            Text(
+                text = "$${product?.price ?: "N/A"}",
+                style = MaterialTheme.typography.bodyLarge,
+                color = MaterialTheme.colorScheme.secondary
+            )
+
+            Spacer(modifier = Modifier.height(4.dp))
+
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                Icon(
+                    imageVector = Icons.Default.Star,
+                    contentDescription = "Star",
+                    tint = MaterialTheme.colorScheme.secondary
+                )
+                Spacer(modifier = Modifier.width(4.dp))
+                Text(
+                    text = "Rating: ${product?.rating?.rate} (${product?.rating?.count} reviews)",
+                    style = MaterialTheme.typography.bodyLarge,
+                    color = MaterialTheme.colorScheme.secondary
+                )
+            }
+
+            Spacer(modifier = Modifier.height(8.dp))
+
+            Text(
+                text = product?.description ?: "No description available",
+                style = MaterialTheme.typography.bodyMedium,
+                color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.8f)
+            )
         }
         Button(
             modifier = Modifier
