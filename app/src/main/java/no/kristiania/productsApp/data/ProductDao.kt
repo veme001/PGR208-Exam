@@ -3,6 +3,7 @@ package no.kristiania.productsApp.data
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.Query
+import java.util.Locale.Category
 
 @Dao
 interface ProductDao {
@@ -18,4 +19,7 @@ interface ProductDao {
 
     @Query("SELECT * FROM Products WHERE id in (:ids)")
     suspend fun getProductsByIds(ids : List<Int>): List<Product>
+
+    @Query("SELECT * FROM Products WHERE category = :category")
+    suspend fun getProductsByCategory(category: String): List<Product>
 }
