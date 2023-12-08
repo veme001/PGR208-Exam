@@ -76,8 +76,10 @@ object ProductRepository {
                     val products = response.body() ?: emptyList()
                     _appDatabase.getProductDao().insertProducts(products)
 
+                    Log.d("getProductsByCategory", "Products for $category: ${products}")
                     return _appDatabase.getProductDao().getProductsByCategory(category)
                 } else {
+                    Log.e("getProductsByCategory", "Unsuccessful response: ${response.code()}")
                     throw Exception("could not get products by category")
                 }
 
