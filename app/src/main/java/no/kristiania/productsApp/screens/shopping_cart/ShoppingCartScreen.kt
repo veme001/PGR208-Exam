@@ -28,9 +28,8 @@ fun ShoppingCartScreen (
     onBackButtonClick: () -> Unit = {},
     onProductClick: (productId: Int) -> Unit = {}
 ) {
-    val shoppingCartItems = viewModel.shoppingCartItems
+    val shoppingCartItems = viewModel.shoppingCartItems.collectAsState()
     val products = viewModel.productsInCart.collectAsState()
-
     val orderPrice by viewModel.totalOrderPrice.collectAsState()
 
     Column(
@@ -80,7 +79,7 @@ fun ShoppingCartScreen (
                 .align(Alignment.CenterHorizontally)
                 .width(150.dp)
                 .padding(8.dp),
-            onClick = {  },
+            onClick = { viewModel.confirmOrder() },
 
             ) {
             Text(text = "Place order ($${orderPrice})")
