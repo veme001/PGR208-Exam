@@ -3,11 +3,11 @@ package no.kristiania.productsApp.data
 import android.content.Context
 import android.util.Log
 import androidx.room.Room
+import no.kristiania.productsApp.data.room.AppDatabase
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import java.util.Locale.Category
 
 object ProductRepository {
 
