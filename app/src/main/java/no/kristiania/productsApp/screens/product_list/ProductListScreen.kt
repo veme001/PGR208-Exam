@@ -3,6 +3,7 @@ package no.kristiania.productsApp.screens.product_list
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -13,6 +14,8 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.material3.Divider
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.FilterChip
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -22,12 +25,15 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
+
 
 @Composable
 fun ProductListScreen (
-    viewModel: ProductListViewModel,
+    viewModel: ProductListViewModel = viewModel(),
     onProductClick: (productId: Int) -> Unit = {}
 ) {
+
     val products = viewModel.products.collectAsState()
 
     Column(
@@ -69,6 +75,30 @@ fun ProductListScreen (
                 }
             }
         }
+            Divider()
+
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+
+            }
+
+        Spacer(modifier = Modifier.size(8.dp))
+
+        Row (modifier = Modifier
+            .fillMaxWidth()
+            .padding(start = 8.dp, end = 8.dp),
+            Arrangement.SpaceBetween
+        ) {
+            CategoryFilterButton("electronics", viewModel, "Electronics")
+            CategoryFilterButton("jewelery", viewModel, "Jewelery")
+            CategoryFilterButton("men's clothing", viewModel, "Men")
+            CategoryFilterButton("women's clothing", viewModel, "Women")
+        }
+
+        Spacer(modifier = Modifier.size(8.dp))
 
         LazyColumn(
             modifier = Modifier
@@ -85,4 +115,24 @@ fun ProductListScreen (
             }
         }
     }
+}
+
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun CategoryFilterButton(category: String, viewModel: ProductListViewModel, displayText: String) {
+    val isSelected = viewModel.selectedCategory.collectAsState().value == category
+
+    FilterChip(
+        selected = isSelected,
+        onClick = {
+            if (isSelected) {
+                viewModel.setSelectedCategory("All")
+            } else {
+                viewModel.setSelectedCategory(category)
+            }
+        },
+        label = { Text(text = displayText) },
+    )
+
 }
