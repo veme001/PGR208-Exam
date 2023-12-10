@@ -120,4 +120,14 @@ object ProductRepository {
                 _appDatabase.getShoppingCartDao().deleteItem(item)
             }
         }
+
+        // Orders:
+
+        suspend fun getOrders(): List<OrderItem>{
+            return _appDatabase.getOrderDao().getAllOrders()
+        }
+
+        suspend fun addOrder(order: OrderItem) {
+            return _appDatabase.getOrderDao().insertOrder(order)
+        }
 }

@@ -18,4 +18,15 @@ object TypeConverter {
     fun fromRating(rating : Rating) : String {
         return gson.toJson(rating)
     }
+
+    @TypeConverter
+    fun fromIntList(value: List<Int>?): String {
+        return gson.toJson(value)
+    }
+
+    @TypeConverter
+    fun toIntList(value: String?): List<Int> {
+        val type = object : TypeToken<List<Int>>() {}.type
+        return gson.fromJson(value, type)
+    }
 }
