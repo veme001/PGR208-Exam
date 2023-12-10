@@ -11,3 +11,16 @@ data class OrderItem (
     val priceOfOrder: Double,
     val date: Long,
 )
+
+data class OrderDetails(
+    val date: String,
+    val numberOfItems: Int,
+    val totalOrderPrice: Double,
+    val products: List<ProductQuantity>
+)
+
+data class ProductQuantity(
+    val productId: Int,
+    val productName: String,
+    val quantity: Int
+)

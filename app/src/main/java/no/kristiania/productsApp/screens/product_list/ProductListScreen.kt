@@ -12,8 +12,6 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.List
-import androidx.compose.material.icons.filled.MoreVert
-import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.material.icons.filled.ShoppingCart
 import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -34,7 +32,8 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 fun ProductListScreen (
     viewModel: ProductListViewModel = viewModel(),
     onProductClick: (productId: Int) -> Unit = {},
-    navigateToShoppingCart: () -> Unit = {}
+    navigateToShoppingCart: () -> Unit = {},
+    navigateToOrderHistory: () -> Unit = {}
 ) {
 
     val products = viewModel.products.collectAsState()
@@ -68,7 +67,7 @@ fun ProductListScreen (
                         contentDescription = "Refresh products"
                     )
                 }
-                IconButton(onClick = { /*TODO*/ }) {
+                IconButton(onClick = { navigateToOrderHistory() }) {
                     Icon(
                         imageVector = Icons.Default.List,
                         contentDescription = "Order history"

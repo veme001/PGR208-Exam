@@ -16,6 +16,7 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.List
 import androidx.compose.material.icons.filled.ShoppingCart
 import androidx.compose.material.icons.filled.Star
 import androidx.compose.material3.Button
@@ -39,7 +40,8 @@ import coil.compose.AsyncImage
 fun ProductDetailsScreen (
     viewModel: ProductDetailsViewModel,
     onBackButtonClick: () -> Unit = {},
-    navigateToShoppingCart: () -> Unit = {}
+    navigateToShoppingCart: () -> Unit = {},
+    navigateToOrderHistory: () -> Unit = {}
 ) {
 
     val productState = viewModel.selectedProduct.collectAsState()
@@ -83,6 +85,12 @@ fun ProductDetailsScreen (
                 Icon (
                     imageVector = Icons.Default.ShoppingCart,
                     contentDescription = "shopping cart"
+                )
+            }
+            IconButton(onClick = { navigateToOrderHistory() }) {
+                Icon(
+                    imageVector = Icons.Default.List,
+                    contentDescription = "Order history"
                 )
             }
         }

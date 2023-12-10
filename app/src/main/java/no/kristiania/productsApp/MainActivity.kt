@@ -11,6 +11,8 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import no.kristiania.productsApp.data.ProductRepository
+import no.kristiania.productsApp.screens.orders.OrderViewModel
+import no.kristiania.productsApp.screens.orders.OrdersScreen
 import no.kristiania.productsApp.screens.product_details.ProductDetailsScreen
 import no.kristiania.productsApp.screens.product_details.ProductDetailsViewModel
 import no.kristiania.productsApp.screens.product_list.ProductListScreen
@@ -23,6 +25,7 @@ class MainActivity : ComponentActivity() {
     private val _productListViewModel : ProductListViewModel by viewModels()
     private val _productDetailsViewModel : ProductDetailsViewModel by viewModels()
     private val _shoppingCartViewModel : ShoppingCartViewModel by viewModels()
+    private val _ordersViewModel : OrderViewModel by viewModels()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -47,6 +50,9 @@ class MainActivity : ComponentActivity() {
                             },
                             navigateToShoppingCart = {
                                 navController.navigate("shoppingCartScreen")
+                            },
+                            navigateToOrderHistory = {
+                                navController.navigate("ordersScreen")
                             }
                         )
                     }
@@ -69,6 +75,9 @@ class MainActivity : ComponentActivity() {
                             onBackButtonClick = {navController.popBackStack()},
                             navigateToShoppingCart = {
                                 navController.navigate("shoppingCartScreen")
+                            },
+                            navigateToOrderHistory = {
+                                navController.navigate("ordersScreen")
                             }
                         )
                     }
@@ -84,6 +93,16 @@ class MainActivity : ComponentActivity() {
                                 navController.navigate("productDetailsScreen/${productId}")
                             }
 
+                        )
+                    }
+                    composable(route = "ordersScreen") {
+                        // LaunchedEffect will run it's code block first time we navigate to favoriteListScreen
+                        LaunchedEffect(Unit) {
+                            _ordersViewModel.loadOrders()
+                        }
+                        OrdersScreen(
+                            viewModel = _ordersViewModel,
+                            onBackButtonClick = { navController.popBackStack() },
                         )
                     }
                 }
