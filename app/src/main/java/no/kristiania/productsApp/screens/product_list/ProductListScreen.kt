@@ -11,8 +11,10 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.List
 import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material.icons.filled.Refresh
+import androidx.compose.material.icons.filled.ShoppingCart
 import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FilterChip
@@ -31,7 +33,8 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 @Composable
 fun ProductListScreen (
     viewModel: ProductListViewModel = viewModel(),
-    onProductClick: (productId: Int) -> Unit = {}
+    onProductClick: (productId: Int) -> Unit = {},
+    navigateToShoppingCart: () -> Unit = {}
 ) {
 
     val products = viewModel.products.collectAsState()
@@ -58,19 +61,17 @@ fun ProductListScreen (
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 IconButton(
-                    onClick = { viewModel.loadProducts() }
+                    onClick = { navigateToShoppingCart() }
                 ) {
                     Icon(
-                        imageVector = Icons.Default.Refresh,
+                        imageVector = Icons.Default.ShoppingCart,
                         contentDescription = "Refresh products"
                     )
                 }
                 IconButton(onClick = { /*TODO*/ }) {
                     Icon(
-                        imageVector = Icons.Default.MoreVert,
-                        contentDescription = "Filter",
-                        modifier = Modifier.size(24.dp),
-                        tint = MaterialTheme.colorScheme.primary
+                        imageVector = Icons.Default.List,
+                        contentDescription = "Order history"
                     )
                 }
             }
