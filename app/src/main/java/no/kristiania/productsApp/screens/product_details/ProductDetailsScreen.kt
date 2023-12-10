@@ -135,7 +135,7 @@ fun ProductDetailsScreen (
                 Icon(
                     imageVector = Icons.Default.Star,
                     contentDescription = "Star",
-                    tint = MaterialTheme.colorScheme.secondary
+                    tint = Color.Yellow
                 )
                 Spacer(modifier = Modifier.width(4.dp))
                 Text(
