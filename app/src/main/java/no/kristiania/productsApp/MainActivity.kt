@@ -44,6 +44,9 @@ class MainActivity : ComponentActivity() {
                             viewModel = _productListViewModel,
                             onProductClick = {productId ->
                                 navController.navigate("productDetailsScreen/${productId}")
+                            },
+                            navigateToShoppingCart = {
+                                navController.navigate("shoppingCartScreen")
                             }
                         )
                     }
