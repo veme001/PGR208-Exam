@@ -41,6 +41,7 @@ class OrderViewModel : ViewModel() {
                         ProductQuantity(productId, products.find { it.id == productId }?.title ?: "", quantity)
                     }
                 OrderDetails(
+                    orderId = item.orderId,
                     date = formatDate(item.date),
                     numberOfItems = item.products.size,
                     totalOrderPrice = item.priceOfOrder,

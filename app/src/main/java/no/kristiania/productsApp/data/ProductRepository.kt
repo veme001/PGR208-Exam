@@ -130,4 +130,8 @@ object ProductRepository {
         suspend fun addOrder(order: OrderItem) {
             return _appDatabase.getOrderDao().insertOrder(order)
         }
+
+        suspend fun getOrderById(orderId: Int): OrderItem? {
+            return _appDatabase.getOrderDao().getOrderById(orderId)
+        }
 }

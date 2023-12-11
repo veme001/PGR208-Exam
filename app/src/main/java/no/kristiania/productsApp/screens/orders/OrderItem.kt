@@ -1,5 +1,6 @@
 package no.kristiania.productsApp.screens.orders
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -20,12 +21,16 @@ fun OrderItem(
     date: String,
     products: List<ProductQuantity>,
     totalPrice: Double,
-    numberOfItems: Int
+    numberOfItems: Int,
+    onClick: () -> Unit = {}
 ) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
             .padding(6.dp)
+            .clickable {
+                onClick()
+            }
     ) {
         Column(
             modifier = Modifier

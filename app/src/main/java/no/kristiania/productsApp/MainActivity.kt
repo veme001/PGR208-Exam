@@ -11,6 +11,8 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import no.kristiania.productsApp.data.ProductRepository
+import no.kristiania.productsApp.screens.order_details.OrderDetailsScreen
+import no.kristiania.productsApp.screens.order_details.OrderDetailsViewModel
 import no.kristiania.productsApp.screens.orders.OrderViewModel
 import no.kristiania.productsApp.screens.orders.OrdersScreen
 import no.kristiania.productsApp.screens.product_details.ProductDetailsScreen
@@ -26,6 +28,7 @@ class MainActivity : ComponentActivity() {
     private val _productDetailsViewModel : ProductDetailsViewModel by viewModels()
     private val _shoppingCartViewModel : ShoppingCartViewModel by viewModels()
     private val _ordersViewModel : OrderViewModel by viewModels()
+    private val _ordersDetailViewModel : OrderDetailsViewModel by viewModels()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -106,7 +109,35 @@ class MainActivity : ComponentActivity() {
                         OrdersScreen(
                             viewModel = _ordersViewModel,
                             onBackButtonClick = { navController.popBackStack() },
+                            onOrderClick = {orderId ->
+                                navController.navigate("ordersDetailsScreen/${orderId}")
+                            },
                         )
+                    }
+                    composable(
+                        route = "ordersDetailsScreen/{orderId}",
+                        arguments = listOf(
+                            navArgument(name = "orderId") {
+                                type = NavType.IntType
+                            }
+                        )
+                    ) {backStackEntry ->
+                        val orderId = backStackEntry.arguments?.getInt("orderId") ?: -1
+
+                        LaunchedEffect(orderId) {
+                            _ordersDetailViewModel.setSelectedOrder(orderId)
+                        }
+                        OrderDetailsScreen(
+                            viewModel = _ordersDetailViewModel,
+                            onBackButtonClick = {navController.popBackStack()},
+                            navigateToShoppingCart = {
+                                navController.navigate("shoppingCartScreen")
+                            },
+                            navigateToOrderHistory = {
+                                navController.navigate("ordersScreen")
+                            }
+                        )
+
                     }
                 }
             }

@@ -22,6 +22,7 @@ import androidx.compose.ui.unit.dp
 @Composable
 fun OrdersScreen (
     viewModel: OrderViewModel,
+    onOrderClick: (orderId: Int) -> Unit = {},
     onBackButtonClick: () -> Unit = {},
 ) {
     val orders = viewModel.orderDetailsList.collectAsState()
@@ -58,7 +59,10 @@ fun OrdersScreen (
                     date = order.date,
                     products = order.products,
                     totalPrice = order.totalOrderPrice,
-                    numberOfItems = order.numberOfItems
+                    numberOfItems = order.numberOfItems,
+                    onClick = {
+                        onOrderClick(order.orderId)
+                    }
                 )
             }
         }

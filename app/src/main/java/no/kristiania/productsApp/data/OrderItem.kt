@@ -13,6 +13,7 @@ data class OrderItem (
 )
 
 data class OrderDetails(
+    val orderId: Int,
     val date: String,
     val numberOfItems: Int,
     val totalOrderPrice: Double,
