@@ -43,7 +43,7 @@ fun OrderItem(
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(bottom = 5.dp),
+                        .padding(bottom = 4.dp),
                     horizontalArrangement = Arrangement.SpaceBetween
                 ) {
                     Text(
