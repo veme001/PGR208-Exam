@@ -87,7 +87,9 @@ fun ProductDetailsScreen (
                     contentDescription = "shopping cart"
                 )
             }
-            IconButton(onClick = { navigateToOrderHistory() }) {
+            IconButton(
+                onClick = { navigateToOrderHistory() }
+            ) {
                 Icon(
                     imageVector = Icons.Default.List,
                     contentDescription = "Order history"

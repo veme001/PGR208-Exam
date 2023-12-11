@@ -91,6 +91,9 @@ class MainActivity : ComponentActivity() {
                             onBackButtonClick = { navController.popBackStack() },
                             onProductClick = {productId ->
                                 navController.navigate("productDetailsScreen/${productId}")
+                            },
+                            navigateToOrderHistory = {
+                                navController.navigate("ordersScreen")
                             }
 
                         )

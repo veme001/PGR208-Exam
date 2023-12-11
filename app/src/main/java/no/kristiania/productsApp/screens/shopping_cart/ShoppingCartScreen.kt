@@ -10,6 +10,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.List
 import androidx.compose.material3.Button
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -26,7 +27,8 @@ import androidx.compose.ui.unit.dp
 fun ShoppingCartScreen (
     viewModel: ShoppingCartViewModel,
     onBackButtonClick: () -> Unit = {},
-    onProductClick: (productId: Int) -> Unit = {}
+    onProductClick: (productId: Int) -> Unit = {},
+    navigateToOrderHistory: () -> Unit = {}
 ) {
     val shoppingCartItems = viewModel.shoppingCartItems.collectAsState()
     val products = viewModel.productsInCart.collectAsState()
@@ -55,6 +57,14 @@ fun ShoppingCartScreen (
                 text = "Shopping Cart",
                 style = MaterialTheme.typography.titleLarge
             )
+            IconButton(
+                onClick = { navigateToOrderHistory() }
+            ) {
+                Icon(
+                    imageVector = Icons.Default.List,
+                    contentDescription = "Order history"
+                )
+            }
         }
 
         LazyColumn {

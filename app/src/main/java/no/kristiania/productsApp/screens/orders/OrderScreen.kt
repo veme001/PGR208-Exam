@@ -47,7 +47,7 @@ fun OrdersScreen (
             }
             Text(
                 modifier = Modifier.padding(8.dp),
-                text = "Shopping Cart",
+                text = "Order History",
                 style = MaterialTheme.typography.titleLarge
             )
         }

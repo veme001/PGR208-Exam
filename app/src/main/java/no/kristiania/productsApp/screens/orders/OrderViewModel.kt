@@ -30,7 +30,7 @@ class OrderViewModel : ViewModel() {
             val orderItems = ProductRepository.getOrders()
             _orderItems.value = orderItems
 
-            val detailsList = orderItems.map {item ->  
+            val detailsList = orderItems.map {item ->
                 val productIds = item.products
                 val products = ProductRepository.getProductsById(productIds)
 

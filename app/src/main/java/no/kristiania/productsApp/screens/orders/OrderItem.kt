@@ -50,7 +50,7 @@ fun OrderItem(
                         text = "${product.quantity}x ${product.productName}",
                         maxLines = 1,
                         overflow = TextOverflow.Ellipsis
-                        )
+                    )
                 }
             }
 

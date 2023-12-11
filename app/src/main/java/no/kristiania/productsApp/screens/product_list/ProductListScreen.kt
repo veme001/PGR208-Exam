@@ -67,7 +67,9 @@ fun ProductListScreen (
                         contentDescription = "Refresh products"
                     )
                 }
-                IconButton(onClick = { navigateToOrderHistory() }) {
+                IconButton(
+                    onClick = { navigateToOrderHistory() }
+                ) {
                     Icon(
                         imageVector = Icons.Default.List,
                         contentDescription = "Order history"
