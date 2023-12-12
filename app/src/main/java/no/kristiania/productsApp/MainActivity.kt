@@ -130,6 +130,9 @@ class MainActivity : ComponentActivity() {
                         OrderDetailsScreen(
                             viewModel = _ordersDetailViewModel,
                             onBackButtonClick = {navController.popBackStack()},
+                            navigateToProductListScreen = {
+                                navController.navigate("productListScreen")
+                            },
                             navigateToShoppingCart = {
                                 navController.navigate("shoppingCartScreen")
                             },
@@ -137,7 +140,6 @@ class MainActivity : ComponentActivity() {
                                 navController.navigate("ordersScreen")
                             }
                         )
-
                     }
                 }
             }

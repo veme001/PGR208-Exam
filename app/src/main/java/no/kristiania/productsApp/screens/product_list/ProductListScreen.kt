@@ -65,7 +65,7 @@ fun ProductListScreen (
                 ) {
                     Icon(
                         imageVector = Icons.Default.ShoppingCart,
-                        contentDescription = "Refresh products"
+                        contentDescription = "Shopping cart"
                     )
                 }
                 IconButton(

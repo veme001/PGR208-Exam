@@ -16,6 +16,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.List
 import androidx.compose.material.icons.filled.ShoppingCart
 import androidx.compose.material3.Divider
@@ -37,6 +38,7 @@ import java.util.Locale
 fun OrderDetailsScreen (
     viewModel: OrderDetailsViewModel,
     onBackButtonClick: () -> Unit = {},
+    navigateToProductListScreen: () -> Unit = {},
     navigateToShoppingCart: () -> Unit = {},
     navigateToOrderHistory: () -> Unit = {}
 ) {
@@ -66,7 +68,15 @@ fun OrderDetailsScreen (
             ) {
                 Icon(
                     imageVector = Icons.Default.ArrowBack,
-                    contentDescription = "Refresh products"
+                    contentDescription = "Back icon"
+                )
+            }
+            IconButton(
+                onClick = { navigateToProductListScreen() }
+            ) {
+                Icon(
+                    imageVector = Icons.Default.Home,
+                    contentDescription = "Home icon"
                 )
             }
 
