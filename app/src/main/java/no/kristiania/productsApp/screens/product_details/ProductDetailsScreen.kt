@@ -32,6 +32,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 
@@ -59,8 +60,7 @@ fun ProductDetailsScreen (
             .verticalScroll(rememberScrollState())
     ) {
         Row(modifier = Modifier
-            .fillMaxWidth()
-            .padding(8.dp),
+            .fillMaxWidth(),
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
@@ -72,29 +72,32 @@ fun ProductDetailsScreen (
                     contentDescription = "Refresh products"
                 )
             }
-
             Text(
                 modifier = Modifier
-                    .padding(8.dp),
+                    .padding(8.dp)
+                    .weight(1f),
                 text = "Product details",
                 style = MaterialTheme.typography.titleLarge,
             )
-            IconButton(
-                onClick = { navigateToShoppingCart() }
-            ) {
-                Icon (
-                    imageVector = Icons.Default.ShoppingCart,
-                    contentDescription = "shopping cart"
-                )
+            Row {
+                IconButton(
+                    onClick = { navigateToShoppingCart() }
+                ) {
+                    Icon (
+                        imageVector = Icons.Default.ShoppingCart,
+                        contentDescription = "shopping cart"
+                    )
+                }
+                IconButton(
+                    onClick = { navigateToOrderHistory() }
+                ) {
+                    Icon(
+                        imageVector = Icons.Default.List,
+                        contentDescription = "Order history"
+                    )
+                }
             }
-            IconButton(
-                onClick = { navigateToOrderHistory() }
-            ) {
-                Icon(
-                    imageVector = Icons.Default.List,
-                    contentDescription = "Order history"
-                )
-            }
+
         }
 
         Divider()
