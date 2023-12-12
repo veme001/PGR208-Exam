@@ -3,14 +3,18 @@ package no.kristiania.productsApp.screens.order_details
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.List
 import androidx.compose.material.icons.filled.ShoppingCart
@@ -53,8 +57,7 @@ fun OrderDetailsScreen (
     ) {
         Row(
             modifier = Modifier
-                .fillMaxWidth()
-                .padding(8.dp),
+                .fillMaxWidth(),
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
@@ -69,34 +72,43 @@ fun OrderDetailsScreen (
 
             Text(
                 modifier = Modifier
-                    .padding(8.dp),
+                    .padding(8.dp)
+                    .weight(1f),
                 text = "Order details",
                 style = MaterialTheme.typography.titleLarge,
             )
-            IconButton(
-                onClick = { navigateToShoppingCart() }
-            ) {
-                Icon(
-                    imageVector = Icons.Default.ShoppingCart,
-                    contentDescription = "shopping cart"
-                )
-            }
-            IconButton(
-                onClick = { navigateToOrderHistory() }
-            ) {
-                Icon(
-                    imageVector = Icons.Default.List,
-                    contentDescription = "Order history"
-                )
+            Row {
+                IconButton(
+                    onClick = { navigateToShoppingCart() }
+                ) {
+                    Icon(
+                        imageVector = Icons.Default.ShoppingCart,
+                        contentDescription = "shopping cart"
+                    )
+                }
+                IconButton(
+                    onClick = { navigateToOrderHistory() }
+                ) {
+                    Icon(
+                        imageVector = Icons.Default.AccountCircle,
+                        contentDescription = "Order history"
+                    )
+                }
             }
         }
 
         Divider()
+        Spacer(modifier = Modifier.height(8.dp))
 
-        if(order!= null){
-            Text(text = "Order id: ${order.orderId}")
-            Text(text = "Order date: ${formatOrderDate(dateInMillis = order.date)}")
-            Text(text = "Total price: $${order.priceOfOrder}")
+        Column(modifier = Modifier
+            .fillMaxWidth()
+            .padding(8.dp)
+        ) {
+            if (order != null) {
+                Text(text = "Order id: ${order.orderId}")
+                Text(text = "Order date: ${formatOrderDate(dateInMillis = order.date)}")
+                Text(text = "Total price: $${order.priceOfOrder}")
+            }
         }
 
         LazyColumn {

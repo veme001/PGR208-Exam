@@ -15,6 +15,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.List
 import androidx.compose.material.icons.filled.ShoppingCart
@@ -92,7 +93,7 @@ fun ProductDetailsScreen (
                     onClick = { navigateToOrderHistory() }
                 ) {
                     Icon(
-                        imageVector = Icons.Default.List,
+                        imageVector = Icons.Default.AccountCircle,
                         contentDescription = "Order history"
                     )
                 }

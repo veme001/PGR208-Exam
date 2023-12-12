@@ -1,5 +1,6 @@
 package no.kristiania.productsApp.screens.shopping_cart
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
@@ -9,9 +10,11 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.List
 import androidx.compose.material3.Button
+import androidx.compose.material3.Divider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -40,9 +43,10 @@ fun ShoppingCartScreen (
 
     ) {
         Row (
-            modifier = Modifier.fillMaxWidth(),
-            verticalAlignment = Alignment.CenterVertically
-
+            modifier = Modifier
+                .fillMaxWidth(),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.SpaceBetween
         ) {
             IconButton(
                 onClick = { onBackButtonClick() }
@@ -53,19 +57,25 @@ fun ShoppingCartScreen (
                 )
             }
             Text(
-                modifier = Modifier.padding(8.dp),
-                text = "Shopping Cart",
+                modifier = Modifier
+                    .padding(8.dp)
+                    .weight(1f),
+                text = "Shopping cart",
                 style = MaterialTheme.typography.titleLarge
             )
-            IconButton(
-                onClick = { navigateToOrderHistory() }
-            ) {
-                Icon(
-                    imageVector = Icons.Default.List,
-                    contentDescription = "Order history"
-                )
+            Row {
+                IconButton(
+                    onClick = { navigateToOrderHistory() }
+                ) {
+                    Icon(
+                        imageVector = Icons.Default.AccountCircle,
+                        contentDescription = "Order history"
+                    )
+                }
             }
         }
+
+        Divider()
 
         LazyColumn {
             items(shoppingCartItems.value) { item->
