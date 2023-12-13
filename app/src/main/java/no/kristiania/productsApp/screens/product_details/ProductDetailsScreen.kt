@@ -1,6 +1,7 @@
 package no.kristiania.productsApp.screens.product_details
 
 
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -198,18 +199,24 @@ fun ProductDetailsScreen (
                     onClick = {
                         viewModel.addProductToCart()
                         viewModelScope.launch {
-                            val result = viewModel.cartAdditionResult.value
-                            if (result == CartAdditionResult.ERROR) {
-                                snackbarHostState.showSnackbar("Failed to add product to shopping cart")
-                            } else if (result == CartAdditionResult.SUCCESS) {
-                                snackbarHostState.showSnackbar("Product added to shopping cart")
+                            viewModel.cartAdditionResult.collect{ result ->
+                                when(result) {
+                                    CartAdditionResult.ERROR -> {
+                                        snackbarHostState.showSnackbar("Failed to add product to shopping cart")
+                                    }
+                                    CartAdditionResult.SUCCESS -> {
+                                        snackbarHostState.showSnackbar("Product added to shopping cart")
+                                    }
+                                    else -> {
+                                        Log.d("add to cart detailScreen", "unexpected result $result")
+                                    }
+                                }
                             }
                         }
                     }
                 ) {
                     Text(text = "Add to cart")
                 }
-
             }
         }
     )
