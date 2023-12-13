@@ -37,12 +37,14 @@ class ProductDetailsViewModel : ViewModel() {
         val product = _selectedProduct.value
         if (product != null){
             viewModelScope.launch {
-                val newItem = ShoppingCartItem(product.id, 1)
-                ProductRepository.addShoppingCartItem(newItem)
-                _cartAdditionResult.value = CartAdditionResult.SUCCESS
+                try {
+                    val newItem = ShoppingCartItem(product.id, 1)
+                    ProductRepository.addShoppingCartItem(newItem)
+                    _cartAdditionResult.value = CartAdditionResult.SUCCESS
+                } catch (e: Exception) {
+                    _cartAdditionResult.value = CartAdditionResult.ERROR
+                }
             }
-        } else {
-            _cartAdditionResult.value = CartAdditionResult.ERROR
         }
     }
 }
