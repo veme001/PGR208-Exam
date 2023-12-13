@@ -111,7 +111,9 @@ fun ShoppingCartScreen (
             return
         }
 
-        LazyColumn {
+        LazyColumn(
+            modifier = Modifier.weight(1f)
+        ) {
             items(shoppingCartItems.value) { item->
                 val product = products.value.find { it.id == item.productId }
 
