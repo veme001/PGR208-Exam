@@ -86,4 +86,12 @@ class ShoppingCartViewModel : ViewModel() {
             _totalOrderPrice.value = 0.0
         }
     }
+
+    fun deleteCartItem(item: ShoppingCartItem) {
+        viewModelScope.launch {
+            ProductRepository.removeShoppingCartItem(item)
+            _shoppingCartItems.value = _shoppingCartItems.value - item
+            _totalOrderPrice.value = getOrderPrice()
+        }
+    }
 }
