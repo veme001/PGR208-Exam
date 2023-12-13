@@ -110,7 +110,7 @@ fun ShoppingCartScreen (
                         quantity = item.quantity,
                         onIncrease = { /* Handle increase logic */ },
                         onDecrease = { /* Handle decrease logic */ },
-                        onDelete = { /* Handle decrease logic */ },
+                        onDelete = { viewModel.deleteCartItem(item) },
                         onClick = {onProductClick(product.id)}
                     )
                 }
