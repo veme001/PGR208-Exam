@@ -76,6 +76,9 @@ fun ShoppingCartScreen (
                 }
             }
         }
+
+        Divider()
+
         if(shoppingCartItems.value.isEmpty()){
             Column(
                 modifier = Modifier
@@ -97,8 +100,6 @@ fun ShoppingCartScreen (
             }
             return
         }
-
-        Divider()
 
         LazyColumn {
             items(shoppingCartItems.value) { item->
