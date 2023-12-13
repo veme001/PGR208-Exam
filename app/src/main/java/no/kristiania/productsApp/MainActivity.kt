@@ -92,8 +92,12 @@ class MainActivity : ComponentActivity() {
                         ShoppingCartScreen(
                             viewModel = _shoppingCartViewModel,
                             onBackButtonClick = { navController.popBackStack() },
+
                             onProductClick = {productId ->
                                 navController.navigate("productDetailsScreen/${productId}")
+                            },
+                            navigateToProductListScreen = {
+                                navController.navigate("productListScreen")
                             },
                             navigateToOrderHistory = {
                                 navController.navigate("ordersScreen")
@@ -109,6 +113,12 @@ class MainActivity : ComponentActivity() {
                         OrdersScreen(
                             viewModel = _ordersViewModel,
                             onBackButtonClick = { navController.popBackStack() },
+                            navigateToProductListScreen = {
+                                navController.navigate("productListScreen")
+                            },
+                            navigateToShoppingCart = {
+                                navController.navigate("shoppingCartScreen")
+                            },
                             onOrderClick = {orderId ->
                                 navController.navigate("ordersDetailsScreen/${orderId}")
                             },

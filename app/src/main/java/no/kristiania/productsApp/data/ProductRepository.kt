@@ -120,7 +120,7 @@ object ProductRepository {
             val exists = _appDatabase.getShoppingCartDao().getItemById(item.productId)
 
             if (exists != null) {
-                _appDatabase.getShoppingCartDao().updateQuantity(item.productId, item.quantity + 1)
+                _appDatabase.getShoppingCartDao().updateQuantity(item.productId, exists.quantity + 1)
             } else {
                 _appDatabase.getShoppingCartDao().insertItem(item)
             }

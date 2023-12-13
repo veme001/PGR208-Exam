@@ -13,6 +13,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.ShoppingCart
 import androidx.compose.material3.Button
 import androidx.compose.material3.Divider
@@ -33,7 +34,8 @@ fun ShoppingCartScreen (
     viewModel: ShoppingCartViewModel,
     onBackButtonClick: () -> Unit = {},
     onProductClick: (productId: Int) -> Unit = {},
-    navigateToOrderHistory: () -> Unit = {}
+    navigateToOrderHistory: () -> Unit = {},
+    navigateToProductListScreen: () -> Unit = {},
 ) {
     val shoppingCartItems = viewModel.shoppingCartItems.collectAsState()
     val products = viewModel.productsInCart.collectAsState()
@@ -56,6 +58,14 @@ fun ShoppingCartScreen (
                 Icon(
                     imageVector = Icons.Default.ArrowBack,
                     contentDescription = "Navigate Back"
+                )
+            }
+            IconButton(
+                onClick = { navigateToProductListScreen() }
+            ) {
+                Icon(
+                    imageVector = Icons.Default.Home,
+                    contentDescription = "Home icon"
                 )
             }
             Text(
