@@ -14,7 +14,9 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Info
+import androidx.compose.material.icons.filled.ShoppingCart
 import androidx.compose.material3.Divider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -34,6 +36,8 @@ fun OrdersScreen (
     viewModel: OrderViewModel,
     onOrderClick: (orderId: Int) -> Unit = {},
     onBackButtonClick: () -> Unit = {},
+    navigateToProductListScreen: () -> Unit = {},
+    navigateToShoppingCart: () -> Unit = {},
 ) {
     val orders = viewModel.orderDetailsList.collectAsState()
 
@@ -43,9 +47,10 @@ fun OrdersScreen (
 
     ) {
         Row (
-            modifier = Modifier.fillMaxWidth(),
-            verticalAlignment = Alignment.CenterVertically
-
+            modifier = Modifier
+                .fillMaxWidth(),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.SpaceBetween
         ) {
             IconButton(
                 onClick = { onBackButtonClick() }
@@ -55,11 +60,32 @@ fun OrdersScreen (
                     contentDescription = "Navigate Back"
                 )
             }
+            IconButton(
+                onClick = { navigateToProductListScreen() }
+            ) {
+                Icon(
+                    imageVector = Icons.Default.Home,
+                    contentDescription = "Home icon"
+                )
+            }
+
             Text(
-                modifier = Modifier.padding(8.dp),
+                modifier = Modifier
+                    .padding(8.dp)
+                    .weight(1f),
                 text = "Order history",
                 style = MaterialTheme.typography.titleLarge
             )
+            Row{
+                IconButton(
+                    onClick = { navigateToShoppingCart() }
+                ) {
+                    Icon(
+                        imageVector = Icons.Default.ShoppingCart,
+                        contentDescription = "shopping cart"
+                    )
+                }
+            }
         }
         if(orders.value.isEmpty()){
             Column(
