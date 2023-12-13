@@ -4,7 +4,9 @@ import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import no.kristiania.productsApp.data.OrderItem
@@ -21,6 +23,9 @@ class ShoppingCartViewModel : ViewModel() {
 
     private val _totalOrderPrice = MutableStateFlow<Double>(0.0)
     val totalOrderPrice = _totalOrderPrice.asStateFlow()
+
+    private val _showConfirmation = MutableStateFlow(false)
+    val showConfirmation: StateFlow<Boolean> = _showConfirmation.asStateFlow()
 
 
 
@@ -68,6 +73,14 @@ class ShoppingCartViewModel : ViewModel() {
 
                 ProductRepository.addOrder(newOrder)
                 clearShoppingCart()
+
+
+            }
+            _showConfirmation.value = true
+
+            viewModelScope.launch {
+                delay(2200)
+                _showConfirmation.value = false
             }
         }
         else {

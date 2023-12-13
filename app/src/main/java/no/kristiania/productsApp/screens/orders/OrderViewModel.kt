@@ -53,7 +53,7 @@ class OrderViewModel : ViewModel() {
 
     }
     fun formatDate(timestamp: Long): String {
-        val dateFormat = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault())
+        val dateFormat = SimpleDateFormat("HH:mm EEEE d MMMM yyyy", Locale.getDefault())
         return dateFormat.format(Date(timestamp))
     }
 }

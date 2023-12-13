@@ -26,7 +26,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import java.text.DateFormat
 import java.util.Locale
@@ -53,7 +53,7 @@ fun OrderDetailsScreen (
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(color = Color.Transparent)
+            .background(color = MaterialTheme.colorScheme.background)
     ) {
         Row(
             modifier = Modifier
@@ -83,7 +83,7 @@ fun OrderDetailsScreen (
                     .padding(8.dp)
                     .weight(1f),
                 text = "Order details",
-                style = MaterialTheme.typography.titleLarge,
+                style = MaterialTheme.typography.titleLarge
             )
             Row {
                 IconButton(
@@ -113,13 +113,34 @@ fun OrderDetailsScreen (
             .padding(8.dp)
         ) {
             if (order != null) {
-                Text(text = "Order id: ${order.orderId}")
-                Text(text = "Order date: ${formatOrderDate(dateInMillis = order.date)}")
-                Text(text = "Total price: $${order.priceOfOrder}")
+                Text(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(8.dp),
+                    text = "Order id: #${order.orderId}",
+                    style = MaterialTheme.typography.titleLarge,
+                    textAlign = TextAlign.Center,
+                )
+                Text(
+                    text = "Order date: ${formatOrderDate(dateInMillis = order.date)}",
+                    color = MaterialTheme.colorScheme.primary
+                )
+                Text(
+                    text = "Total price: $${order.priceOfOrder}",
+                    color = MaterialTheme.colorScheme.primary
+                )
+                Text(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(top = 10.dp),
+                    text = "Products in the order:",
+                    style = MaterialTheme.typography.titleMedium,
+                    textAlign = TextAlign.Center
+                )
             }
         }
 
-        LazyColumn {
+        LazyColumn() {
             items(orderProducts.value) { product ->
                 if (product != null) {
                     OrderDetail(

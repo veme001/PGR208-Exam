@@ -13,6 +13,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.CheckCircle
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.ShoppingCart
 import androidx.compose.material3.Button
@@ -26,6 +27,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 
@@ -40,6 +42,7 @@ fun ShoppingCartScreen (
     val shoppingCartItems = viewModel.shoppingCartItems.collectAsState()
     val products = viewModel.productsInCart.collectAsState()
     val orderPrice by viewModel.totalOrderPrice.collectAsState()
+    val confirmation by viewModel.showConfirmation.collectAsState()
 
     Column(
         modifier = Modifier.fillMaxSize(),
@@ -89,7 +92,7 @@ fun ShoppingCartScreen (
 
         Divider()
 
-        if(shoppingCartItems.value.isEmpty()){
+        if(confirmation){
             Column(
                 modifier = Modifier
                     .fillMaxSize()
@@ -98,50 +101,74 @@ fun ShoppingCartScreen (
                 verticalArrangement = Arrangement.Center
             ) {
                 Icon(
-                    imageVector = Icons.Default.ShoppingCart,
-                    contentDescription = "Shopping cart",
-                    modifier = Modifier.size(50.dp)
+                    imageVector = Icons.Default.CheckCircle,
+                    contentDescription = "Confirmation",
+                    tint = Color.Green,
+                    modifier = Modifier
+                        .size(70.dp),
+
                 )
                 Text(
-                    text = "No items in the shopping cart",
+                    text = "Thank you for your order",
                     style = MaterialTheme.typography.displaySmall,
                     textAlign = TextAlign.Center
                 )
             }
-            return
-        }
 
-        LazyColumn(
-            modifier = Modifier.weight(1f)
-        ) {
-            items(shoppingCartItems.value) { item->
-                val product = products.value.find { it.id == item.productId }
-
-                if(product != null){
-                    ShoppingCartItem(
-                        product = product,
-                        quantity = item.quantity,
-                        onIncrease = { viewModel.increaseCartQuantity(item) },
-                        onDecrease = { viewModel.decreaseCartQuantity(item) },
-                        onDelete = { viewModel.deleteCartItem(item) },
-                        onClick = {onProductClick(product.id)}
+        } else {
+            if(shoppingCartItems.value.isEmpty()){
+                Column(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(12.dp),
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    verticalArrangement = Arrangement.Center
+                ) {
+                    Icon(
+                        imageVector = Icons.Default.ShoppingCart,
+                        contentDescription = "Shopping cart",
+                        modifier = Modifier.size(50.dp)
+                    )
+                    Text(
+                        text = "No items in the shopping cart",
+                        style = MaterialTheme.typography.displaySmall,
+                        textAlign = TextAlign.Center
                     )
                 }
+                return
             }
 
-        }
-        if(shoppingCartItems.value.isNotEmpty()){
-            Button(
-                modifier = Modifier
-                    .align(Alignment.CenterHorizontally)
-                    .width(150.dp)
-                    .padding(8.dp),
-                onClick = { viewModel.confirmOrder() },
+            LazyColumn(
+                modifier = Modifier.weight(1f)
+            ) {
+                items(shoppingCartItems.value) { item->
+                    val product = products.value.find { it.id == item.productId }
 
-                ) {
-                Text(text = "Place order ($${orderPrice})")
+                    if(product != null){
+                        ShoppingCartItem(
+                            product = product,
+                            quantity = item.quantity,
+                            onIncrease = { viewModel.increaseCartQuantity(item) },
+                            onDecrease = { viewModel.decreaseCartQuantity(item) },
+                            onDelete = { viewModel.deleteCartItem(item) },
+                            onClick = {onProductClick(product.id)}
+                        )
+                    }
+                }
+
+            }
+            if(shoppingCartItems.value.isNotEmpty()){
+                Button(
+                    modifier = Modifier
+                        .align(Alignment.CenterHorizontally)
+                        .width(150.dp)
+                        .padding(8.dp),
+                    onClick = { viewModel.confirmOrder() },
+
+                    ) {
+                    Text(text = "Place order ($${orderPrice})")
+                }
             }
         }
-
     }
 }
