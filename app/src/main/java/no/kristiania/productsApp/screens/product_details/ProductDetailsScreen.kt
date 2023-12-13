@@ -22,21 +22,39 @@ import androidx.compose.material.icons.filled.Star
 import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Divider
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.ExtendedFloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.ScaffoldDefaults
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
+import kotlinx.coroutines.CoroutineScope
 
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ProductDetailsScreen (
     viewModel: ProductDetailsViewModel,
@@ -47,6 +65,16 @@ fun ProductDetailsScreen (
 
     val productState = viewModel.selectedProduct.collectAsState()
     val loading = viewModel.loading.collectAsState()
+    val snackbarHostState = remember { SnackbarHostState() }
+    val cartAdditionResult by viewModel.cartAdditionResult.collectAsState()
+
+    LaunchedEffect(cartAdditionResult) {
+        if (cartAdditionResult == CartAdditionResult.ERROR) {
+            snackbarHostState.showSnackbar("Failed to add product to shopping cart")
+        } else if (cartAdditionResult == CartAdditionResult.SUCCESS) {
+            snackbarHostState.showSnackbar("Product added to shopping cart")
+        }
+    }
 
     if (loading.value) {
         Column(
@@ -64,129 +92,135 @@ fun ProductDetailsScreen (
         Text(text = "Failed to get product details. Selected product object is NULL")
     }
 
-
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(color = Color.Transparent)
-            .verticalScroll(rememberScrollState())
-    ) {
-        Row(modifier = Modifier
-            .fillMaxWidth(),
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.SpaceBetween
-        ) {
-            IconButton(
-                onClick = { onBackButtonClick() }
-            ) {
-                Icon(
-                    imageVector = Icons.Default.ArrowBack,
-                    contentDescription = "Refresh products"
-                )
-            }
-            Text(
+    Scaffold(
+        snackbarHost = { SnackbarHost(snackbarHostState) },
+        content = { padding ->
+            Column(
                 modifier = Modifier
-                    .padding(8.dp)
-                    .weight(1f),
-                text = "Product details",
-                style = MaterialTheme.typography.titleLarge,
-            )
-            Row {
-                IconButton(
-                    onClick = { navigateToShoppingCart() }
+                    .fillMaxSize()
+                    .background(color = Color.Transparent)
+                    .verticalScroll(rememberScrollState())
+            ) {
+                Row(modifier = Modifier
+                    .fillMaxWidth(),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.SpaceBetween
                 ) {
-                    Icon (
-                        imageVector = Icons.Default.ShoppingCart,
-                        contentDescription = "shopping cart"
+                    IconButton(
+                        onClick = { onBackButtonClick() }
+                    ) {
+                        Icon(
+                            imageVector = Icons.Default.ArrowBack,
+                            contentDescription = "Refresh products"
+                        )
+                    }
+                    Text(
+                        modifier = Modifier
+                            .padding(8.dp)
+                            .weight(1f),
+                        text = "Product details",
+                        style = MaterialTheme.typography.titleLarge,
+                    )
+                    Row {
+                        IconButton(
+                            onClick = { navigateToShoppingCart() }
+                        ) {
+                            Icon (
+                                imageVector = Icons.Default.ShoppingCart,
+                                contentDescription = "shopping cart"
+                            )
+                        }
+                        IconButton(
+                            onClick = { navigateToOrderHistory() }
+                        ) {
+                            Icon(
+                                imageVector = Icons.Default.AccountCircle,
+                                contentDescription = "Order history"
+                            )
+                        }
+                    }
+
+                }
+
+                Divider()
+
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(64.dp)
+                        .background(color = Color.Transparent)
+                ) {
+                    AsyncImage(
+                        modifier = Modifier.fillMaxWidth(),
+                        model = product?.image,
+                        contentScale = ContentScale.Fit,
+                        contentDescription = "Image of ${product?.title}"
                     )
                 }
-                IconButton(
-                    onClick = { navigateToOrderHistory() }
+
+                Divider()
+
+                Column(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(16.dp)
                 ) {
-                    Icon(
-                        imageVector = Icons.Default.AccountCircle,
-                        contentDescription = "Order history"
+                    Text(
+                        text = product?.title ?: "Product Title",
+                        style = MaterialTheme.typography.titleLarge,
+                        fontWeight = FontWeight.Bold,
+                        color = MaterialTheme.colorScheme.primary
+                    )
+
+                    Spacer(modifier = Modifier.height(8.dp))
+
+                    Text(
+                        text = "$${product?.price ?: "N/A"}",
+                        style = MaterialTheme.typography.bodyLarge,
+                        color = MaterialTheme.colorScheme.secondary
+                    )
+
+                    Spacer(modifier = Modifier.height(4.dp))
+
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically,
+                        modifier = Modifier.fillMaxWidth()
+                    ) {
+                        Icon(
+                            imageVector = Icons.Default.Star,
+                            contentDescription = "Star",
+                            tint = Color.Yellow
+                        )
+                        Spacer(modifier = Modifier.width(4.dp))
+                        Text(
+                            text = "Rating: ${product?.rating?.rate} (${product?.rating?.count} reviews)",
+                            style = MaterialTheme.typography.bodyLarge,
+                            color = MaterialTheme.colorScheme.secondary
+                        )
+                    }
+
+                    Spacer(modifier = Modifier.height(8.dp))
+
+                    Text(
+                        text = product?.description ?: "No description available",
+                        style = MaterialTheme.typography.bodyMedium,
+                        color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.8f)
                     )
                 }
+
+                Button(
+                    modifier = Modifier
+                        .align(Alignment.CenterHorizontally)
+                        .width(150.dp)
+                        .padding(8.dp),
+                    onClick = { viewModel.addProductToCart() }
+                ) {
+                    Text(text = "Add to cart")
+                }
+
             }
-
         }
+    )
 
-        Divider()
 
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(64.dp)
-                .background(color = Color.Transparent)
-        ) {
-            AsyncImage(
-                modifier = Modifier.fillMaxWidth(),
-                model = product?.image,
-                //painter = painterResource(id = R.drawable.placeholder_image),
-                contentScale = ContentScale.Fit,
-                contentDescription = "Image of ${product?.title}"
-            )
-        }
-
-        Divider()
-
-        Column(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(16.dp)
-        ) {
-            Text(
-                text = product?.title ?: "Product Title",
-                style = MaterialTheme.typography.titleLarge,
-                fontWeight = FontWeight.Bold,
-                color = MaterialTheme.colorScheme.primary
-            )
-
-            Spacer(modifier = Modifier.height(8.dp))
-
-            Text(
-                text = "$${product?.price ?: "N/A"}",
-                style = MaterialTheme.typography.bodyLarge,
-                color = MaterialTheme.colorScheme.secondary
-            )
-
-            Spacer(modifier = Modifier.height(4.dp))
-
-            Row(
-                verticalAlignment = Alignment.CenterVertically,
-                modifier = Modifier.fillMaxWidth()
-            ) {
-                Icon(
-                    imageVector = Icons.Default.Star,
-                    contentDescription = "Star",
-                    tint = Color.Yellow
-                )
-                Spacer(modifier = Modifier.width(4.dp))
-                Text(
-                    text = "Rating: ${product?.rating?.rate} (${product?.rating?.count} reviews)",
-                    style = MaterialTheme.typography.bodyLarge,
-                    color = MaterialTheme.colorScheme.secondary
-                )
-            }
-
-            Spacer(modifier = Modifier.height(8.dp))
-
-            Text(
-                text = product?.description ?: "No description available",
-                style = MaterialTheme.typography.bodyMedium,
-                color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.8f)
-            )
-        }
-        Button(
-            modifier = Modifier
-                .align(Alignment.CenterHorizontally)
-                .width(150.dp)
-                .padding(8.dp),
-            onClick = { viewModel.addProductToCart() },
-
-            ) {
-            Text(text = "Add to cart")
-        }
-    }
 }
