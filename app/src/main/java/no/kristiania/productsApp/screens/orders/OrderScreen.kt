@@ -1,5 +1,6 @@
 package no.kristiania.productsApp.screens.orders
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -7,10 +8,12 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.Info
 import androidx.compose.material3.Divider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -20,6 +23,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 
 @Composable
@@ -29,7 +33,6 @@ fun OrdersScreen (
     onBackButtonClick: () -> Unit = {},
 ) {
     val orders = viewModel.orderDetailsList.collectAsState()
-
 
     Column(
         modifier = Modifier.fillMaxSize(),
@@ -55,6 +58,28 @@ fun OrdersScreen (
                 style = MaterialTheme.typography.titleLarge
             )
         }
+        if(orders.value.isEmpty()){
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(12.dp),
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.Center
+            ) {
+                Icon(
+                    imageVector = Icons.Default.Info,
+                    contentDescription = "Shopping cart",
+                    modifier = Modifier.size(50.dp)
+                )
+                Text(
+                    text = "No orders placed yet...",
+                    style = MaterialTheme.typography.displaySmall,
+                    textAlign = TextAlign.Center
+                )
+            }
+            return
+        }
+
         Divider()
 
         Spacer(modifier = Modifier

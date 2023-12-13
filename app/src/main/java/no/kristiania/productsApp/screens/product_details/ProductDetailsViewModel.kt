@@ -13,9 +13,14 @@ class ProductDetailsViewModel : ViewModel() {
     private val _selectedProduct = MutableStateFlow<Product?>(null)
     val selectedProduct = _selectedProduct.asStateFlow()
 
+    private val _loading = MutableStateFlow(false)
+    val loading = _loading.asStateFlow()
+
     fun setSelectedProduct(productId: Int) {
         viewModelScope.launch {
+            _loading.value = true
             _selectedProduct.value = ProductRepository.getProductById(productId)
+            _loading.value = false
         }
     }
 
