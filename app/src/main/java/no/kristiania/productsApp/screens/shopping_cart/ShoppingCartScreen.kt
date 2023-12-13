@@ -85,8 +85,8 @@ fun ShoppingCartScreen (
                     ShoppingCartItem(
                         product = product,
                         quantity = item.quantity,
-                        onIncrease = { /* Handle increase logic */ },
-                        onDecrease = { /* Handle decrease logic */ },
+                        onIncrease = { viewModel.increaseCartQuantity(item) },
+                        onDecrease = { viewModel.decreaseCartQuantity(item) },
                         onDelete = { viewModel.deleteCartItem(item) },
                         onClick = {onProductClick(product.id)}
                     )

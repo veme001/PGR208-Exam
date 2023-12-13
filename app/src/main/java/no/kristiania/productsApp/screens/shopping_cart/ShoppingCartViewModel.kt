@@ -40,10 +40,11 @@ class ShoppingCartViewModel : ViewModel() {
     }
 
     private fun getOrderPrice(): Double {
-        return _shoppingCartItems.value.sumOf { item ->
+        val totalPrice = _shoppingCartItems.value.sumOf { item ->
             val product = _productsInCart.value.find { it.id == item.productId }
             product?.price?.times(item.quantity) ?: 0.0
         }
+        return String.format("%.2f", totalPrice).toDouble()
     }
 
     fun confirmOrder(){
@@ -92,6 +93,24 @@ class ShoppingCartViewModel : ViewModel() {
             ProductRepository.removeShoppingCartItem(item)
             _shoppingCartItems.value = _shoppingCartItems.value - item
             _totalOrderPrice.value = getOrderPrice()
+        }
+    }
+
+    fun increaseCartQuantity(item: ShoppingCartItem) {
+        viewModelScope.launch {
+            ProductRepository.updateQuantity(item.productId, item.quantity + 1)
+            loadShoppingCart()
+        }
+    }
+
+    fun decreaseCartQuantity(item: ShoppingCartItem) {
+        viewModelScope.launch {
+            if (item.quantity > 1) {
+                ProductRepository.updateQuantity(item.productId, item.quantity - 1)
+            } else {
+                ProductRepository.removeShoppingCartItem(item)
+            }
+            loadShoppingCart()
         }
     }
 }
