@@ -35,7 +35,7 @@ class ProductListViewModel : ViewModel() {
             val category = _selectedCategory.value
             Log.d("ProductListViewModel", "Loading products for category: $category")
             _products.value = when (category) {
-                "All" -> ProductRepository.getAllProducts()
+                "All" -> ProductRepository.getAllProductsFromDB()
                 else -> ProductRepository.getProductsByCategory(category)
             }
             _loading.value = false

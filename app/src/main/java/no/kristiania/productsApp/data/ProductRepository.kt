@@ -58,6 +58,15 @@ object ProductRepository {
         }
     }
 
+    suspend fun getAllProductsFromDB(): List<Product> {
+        return try {
+            _appDatabase.getProductDao().getAllProducts()
+        } catch (e: Exception) {
+            Log.e("getProductsFromDB", "get products did not work", e)
+            return emptyList()
+        }
+    }
+
     suspend fun getProductById(productId: Int): Product? {
         return try {
             _appDatabase.getProductDao().getProductById(productId)
@@ -80,25 +89,16 @@ object ProductRepository {
     // Categories
 
     suspend fun getProductsByCategory(category: String): List<Product> {
-        try {
-            val response = _productService.getProductsByCategory(category)
-
-            if (response.isSuccessful) {
-                val products = response.body() ?: emptyList()
-                _appDatabase.getProductDao().insertProducts(products)
-
-                Log.d("getProductsByCategory", "Products for $category: ${products}")
-                return _appDatabase.getProductDao().getProductsByCategory(category)
-            } else {
-                Log.e("getProductsByCategory", "Unsuccessful response: ${response.code()}")
-                throw Exception("could not get products by category")
-            }
-
+        return try {
+            val products = _appDatabase.getProductDao().getProductsByCategory(category)
+            Log.d("getProductsByCategory", "Products for $category: ${products}")
+            return products
         } catch (e: Exception) {
             Log.e("getProductsByCategory", "Failed to get products by category", e)
-            return emptyList()
+            emptyList()
         }
     }
+
 
 
     // Shopping Cart:
