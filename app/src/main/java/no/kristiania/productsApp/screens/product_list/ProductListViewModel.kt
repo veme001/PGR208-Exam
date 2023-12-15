@@ -1,18 +1,14 @@
 package no.kristiania.productsApp.screens.product_list
 
 import android.util.Log
-import androidx.lifecycle.VIEW_MODEL_STORE_OWNER_KEY
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.launch
 import no.kristiania.productsApp.data.Product
 import no.kristiania.productsApp.data.ProductRepository
-import java.util.Locale.Category
 
 class ProductListViewModel : ViewModel() {
 
@@ -35,7 +31,7 @@ class ProductListViewModel : ViewModel() {
             val category = _selectedCategory.value
             Log.d("ProductListViewModel", "Loading products for category: $category")
             _products.value = when (category) {
-                "All" -> ProductRepository.getAllProductsFromDB()
+                "All" -> ProductRepository.getAllProducts()
                 else -> ProductRepository.getProductsByCategory(category)
             }
             _loading.value = false

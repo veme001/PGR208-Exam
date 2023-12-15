@@ -58,15 +58,6 @@ object ProductRepository {
         }
     }
 
-    suspend fun getAllProductsFromDB(): List<Product> {
-        return try {
-            _appDatabase.getProductDao().getAllProducts()
-        } catch (e: Exception) {
-            Log.e("getProductsFromDB", "get products did not work", e)
-            return emptyList()
-        }
-    }
-
     suspend fun getProductById(productId: Int): Product? {
         return try {
             _appDatabase.getProductDao().getProductById(productId)
