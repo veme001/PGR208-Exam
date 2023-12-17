@@ -7,9 +7,12 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import no.kristiania.productsApp.data.ShoppingCartItem
 
+// Data access object for interacting with the data in the Shopping Cart table
+// https://developer.android.com/training/data-storage/room/accessing-data
 @Dao
 interface ShoppingCartItemDao {
 
+    //Asynchronous queries: https://developer.android.com/training/data-storage/room/async-queries
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertItem(item: ShoppingCartItem)
 

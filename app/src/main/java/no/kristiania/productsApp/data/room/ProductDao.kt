@@ -5,9 +5,13 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import no.kristiania.productsApp.data.Product
+
+// Data access object for interacting with the data in the Products table
+// https://developer.android.com/training/data-storage/room/accessing-data
 @Dao
 interface ProductDao {
 
+    //Asynchronous queries: https://developer.android.com/training/data-storage/room/async-queries
     @Query("SELECT * FROM Products")
     suspend fun getAllProducts() : List<Product>
 

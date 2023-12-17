@@ -5,8 +5,12 @@ import androidx.room.Insert
 import androidx.room.Query
 import no.kristiania.productsApp.data.OrderItem
 
+// Data access object for interacting with the data in the Orders table
+// https://developer.android.com/training/data-storage/room/accessing-data
 @Dao
 interface OrderDao {
+
+    //Asynchronous queries: https://developer.android.com/training/data-storage/room/async-queries
     @Insert
     suspend fun insertOrder(orderItem : OrderItem)
 

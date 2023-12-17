@@ -3,6 +3,7 @@ package no.kristiania.productsApp.data
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
+//Defining an entity in the database: https://developer.android.com/training/data-storage/room/defining-data
 @Entity("Products")
 data class Product(
     @PrimaryKey
@@ -15,10 +16,7 @@ data class Product(
     val rating: Rating,
 
 )
-data class ProductResponseList(
-    val results: List<Product>
-)
-
+// Object that is used to store the rating details (a list of values from the API)
 data class Rating(
     val rate: Double,
     val count: Int
