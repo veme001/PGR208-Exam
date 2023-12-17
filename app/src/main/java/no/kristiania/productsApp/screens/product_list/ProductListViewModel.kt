@@ -10,8 +10,11 @@ import kotlinx.coroutines.launch
 import no.kristiania.productsApp.data.Product
 import no.kristiania.productsApp.data.ProductRepository
 
+// View model for the ProductList screen, this file makes the data available for the UI
+// https://developer.android.com/reference/android/arch/lifecycle/ViewModel
 class ProductListViewModel : ViewModel() {
 
+    // Boolean to indicate if the data is loading or not
     private val _loading = MutableStateFlow(false)
     val loading = _loading.asStateFlow()
 

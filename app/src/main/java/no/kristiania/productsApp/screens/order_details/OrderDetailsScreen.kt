@@ -155,6 +155,7 @@ fun OrderDetailsScreen (
     }
 }
 
+// Formatting function to format the date of the order, stored as type Long in the database
 @Composable
 fun formatOrderDate(dateInMillis: Long): String {
     val dateFormat = DateFormat.getDateTimeInstance(DateFormat.LONG, DateFormat.SHORT, Locale.getDefault())

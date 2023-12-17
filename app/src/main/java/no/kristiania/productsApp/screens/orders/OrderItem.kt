@@ -18,6 +18,8 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import no.kristiania.productsApp.data.ProductQuantity
 
+// Order item composable used in the lazycolumn OrderScreen
+// The composable needs several values to populate the UI elements
 @Composable
 fun OrderItem(
     date: String,

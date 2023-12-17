@@ -23,6 +23,8 @@ import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import no.kristiania.productsApp.data.Product
 
+// Product item composable used in the lazycolumn in ProductListScreen
+// The composable needs a product and its values to populate UI elements
 @Composable
 fun ProductItem(
     product: Product,

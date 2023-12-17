@@ -17,6 +17,8 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 
+// Order detail composable used in the lazycolumn OrderDetailsScreen
+// The composable needs several values to populate the UI elements
 @Composable
 fun OrderDetail(
     image: String,
@@ -77,6 +79,6 @@ fun OrderDetail(
             }
         }
     }
-    }
+}
 
 
