@@ -28,7 +28,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 
-
+// Product list composable that shows all available items
 @Composable
 fun ProductListScreen (
     viewModel: ProductListViewModel = viewModel(),
@@ -40,6 +40,7 @@ fun ProductListScreen (
     val products = viewModel.products.collectAsState()
     val loading = viewModel.loading.collectAsState()
 
+    // Loading screen when the app is opened
     if (loading.value) {
         Column(
             modifier = Modifier.fillMaxSize(),
@@ -102,6 +103,7 @@ fun ProductListScreen (
 
         Spacer(modifier = Modifier.size(8.dp))
 
+        // Row with filter buttons for the different categories
         Row (modifier = Modifier
             .fillMaxWidth()
             .padding(start = 8.dp, end = 8.dp),
@@ -115,6 +117,7 @@ fun ProductListScreen (
 
         Spacer(modifier = Modifier.size(8.dp))
 
+        // Lazycolumn to display the items in the shop
         LazyColumn(
             modifier = Modifier
                 .fillMaxWidth()

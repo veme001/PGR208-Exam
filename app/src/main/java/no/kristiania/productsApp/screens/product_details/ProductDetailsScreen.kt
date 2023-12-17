@@ -44,7 +44,7 @@ import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import kotlinx.coroutines.launch
 
-
+// Product details screen
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ProductDetailsScreen (
@@ -75,6 +75,7 @@ fun ProductDetailsScreen (
         Text(text = "Failed to get product details. Selected product object is NULL")
     }
 
+    // Scaffold for being able to use Snackbar to display message to user when product is added to shoppingcart
     Scaffold(
         snackbarHost = { SnackbarHost(snackbarHostState) },
         content = { padding ->
@@ -127,6 +128,7 @@ fun ProductDetailsScreen (
 
                 Divider()
 
+                // Box which wraps the image
                 Box(
                     modifier = Modifier
                         .fillMaxWidth()
@@ -191,6 +193,7 @@ fun ProductDetailsScreen (
                     )
                 }
 
+                // Button to add item to shoppingcart, gives response to user based on if the item is successfully added or not
                 Button(
                     modifier = Modifier
                         .align(Alignment.CenterHorizontally)

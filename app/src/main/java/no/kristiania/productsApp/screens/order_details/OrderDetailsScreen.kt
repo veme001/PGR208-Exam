@@ -31,7 +31,7 @@ import androidx.compose.ui.unit.dp
 import java.text.DateFormat
 import java.util.Locale
 
-
+// Order details screen composable responsible for the UI of the order details
 @Composable
 fun OrderDetailsScreen (
     viewModel: OrderDetailsViewModel,
@@ -49,12 +49,13 @@ fun OrderDetailsScreen (
         Text(text = "Failed to get order details. Selected order object is NULL")
     }
 
-
+    // Column which wraps all the content in the screen
     Column(
         modifier = Modifier
             .fillMaxSize()
             .background(color = MaterialTheme.colorScheme.background)
     ) {
+        // Row which contains the navbar
         Row(
             modifier = Modifier
                 .fillMaxWidth(),
@@ -106,8 +107,10 @@ fun OrderDetailsScreen (
         }
 
         Divider()
+
         Spacer(modifier = Modifier.height(8.dp))
 
+        // Column which shows the overview of the order, like date and price
         Column(modifier = Modifier
             .fillMaxWidth()
             .padding(8.dp)
@@ -139,7 +142,7 @@ fun OrderDetailsScreen (
                 )
             }
         }
-
+        // Lazycolumn which shows the specific products in the current order
         LazyColumn() {
             items(orderProducts.value) { product ->
                 if (product != null) {

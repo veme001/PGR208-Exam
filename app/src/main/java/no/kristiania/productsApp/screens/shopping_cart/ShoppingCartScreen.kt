@@ -92,6 +92,7 @@ fun ShoppingCartScreen (
 
         Divider()
 
+        // Gives the user feedback if products gets ordered
         if(confirmation){
             Column(
                 modifier = Modifier
@@ -114,7 +115,7 @@ fun ShoppingCartScreen (
                     textAlign = TextAlign.Center
                 )
             }
-
+        // if shoppingcart is empty it shows a message to the user
         } else {
             if(shoppingCartItems.value.isEmpty()){
                 Column(
@@ -138,6 +139,7 @@ fun ShoppingCartScreen (
                 return
             }
 
+            // Lazycolumn that shows the items in the shoppingcart with the buttons to increase, decrease and delete
             LazyColumn(
                 modifier = Modifier.weight(1f)
             ) {
@@ -156,6 +158,8 @@ fun ShoppingCartScreen (
                     }
                 }
 
+            // Place order button which displays the price of the all items in the cart
+            // Uses the confirmOrder function in the viewmodel when pressed
             }
             if(shoppingCartItems.value.isNotEmpty()){
                 Button(

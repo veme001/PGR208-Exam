@@ -31,6 +31,7 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 
+// Order screen responsible for the UI of order history
 @Composable
 fun OrdersScreen (
     viewModel: OrderViewModel,
@@ -87,6 +88,7 @@ fun OrdersScreen (
                 }
             }
         }
+        // if check to check if order history is empty or not. if yes then gives message to user
         if(orders.value.isEmpty()){
             Column(
                 modifier = Modifier
@@ -115,6 +117,7 @@ fun OrdersScreen (
             .height(8.dp)
         )
 
+        // Lazycolumn to display orders in a scrollable list
         LazyColumn {
             items(orders.value.reversed()) { order->
                 OrderItem(

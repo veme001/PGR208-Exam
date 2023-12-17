@@ -14,7 +14,11 @@ import no.kristiania.productsApp.data.Product
 import no.kristiania.productsApp.data.ProductRepository
 import no.kristiania.productsApp.data.ShoppingCartItem
 
+// View model for the ShoppingCartScreen, this file makes the data available for the UI
+// https://developer.android.com/reference/android/arch/lifecycle/ViewModel
 class ShoppingCartViewModel : ViewModel() {
+
+    // states for product items in the cart + price + confirm btn
     private val _shoppingCartItems = MutableStateFlow<List<ShoppingCartItem>>(emptyList())
     val shoppingCartItems = _shoppingCartItems.asStateFlow()
 
@@ -28,7 +32,7 @@ class ShoppingCartViewModel : ViewModel() {
     val showConfirmation: StateFlow<Boolean> = _showConfirmation.asStateFlow()
 
 
-
+    // function that loads the shoppingcart
     fun loadShoppingCart(){
         viewModelScope.launch(Dispatchers.IO) {
 
@@ -44,6 +48,7 @@ class ShoppingCartViewModel : ViewModel() {
 
     }
 
+    // Function that calculates and retunrs the total price of the items in the cart
     private fun getOrderPrice(): Double {
         val totalPrice = _shoppingCartItems.value.sumOf { item ->
             val product = _productsInCart.value.find { it.id == item.productId }
@@ -52,6 +57,7 @@ class ShoppingCartViewModel : ViewModel() {
         return String.format("%.2f", totalPrice).toDouble()
     }
 
+    // Function that gets triggered by the "place order" btn and creates a new order-item object
     fun confirmOrder(){
         val cartItems = _shoppingCartItems.value
         val products = _productsInCart.value
@@ -73,8 +79,6 @@ class ShoppingCartViewModel : ViewModel() {
 
                 ProductRepository.addOrder(newOrder)
                 clearShoppingCart()
-
-
             }
             _showConfirmation.value = true
 
@@ -88,6 +92,7 @@ class ShoppingCartViewModel : ViewModel() {
         }
     }
 
+    // Function that clears the shoppingcart
     private fun clearShoppingCart() {
         viewModelScope.launch {
 
@@ -101,6 +106,7 @@ class ShoppingCartViewModel : ViewModel() {
         }
     }
 
+    // Function that deletes wanted item in the shopping cart when delete btn is pressed
     fun deleteCartItem(item: ShoppingCartItem) {
         viewModelScope.launch {
             ProductRepository.removeShoppingCartItem(item)
@@ -109,6 +115,7 @@ class ShoppingCartViewModel : ViewModel() {
         }
     }
 
+    // Function that handles increase of quantity of the items in the cart
     fun increaseCartQuantity(item: ShoppingCartItem) {
         viewModelScope.launch {
             ProductRepository.updateQuantity(item.productId, item.quantity + 1)
@@ -116,6 +123,7 @@ class ShoppingCartViewModel : ViewModel() {
         }
     }
 
+    // Function that handles decrease of quantity of the items in the cart
     fun decreaseCartQuantity(item: ShoppingCartItem) {
         viewModelScope.launch {
             if (item.quantity > 1) {

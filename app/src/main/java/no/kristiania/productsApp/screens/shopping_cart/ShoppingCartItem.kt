@@ -30,6 +30,8 @@ import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import no.kristiania.productsApp.data.Product
 
+// Composable that handles how the cards in the shoppingcart look like
+
 @Composable
 fun ShoppingCartItem(
     product: Product,
